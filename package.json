@@ -1,0 +1,30 @@
+{
+<<<<<<< Updated upstream
+  "name": "permisoslaborals",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jirjilio/permisosLaborals.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jirjilio/permisosLaborals/issues"
+  },
+  "homepage": "https://github.com/Jirjilio/permisosLaborals#readme",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.1.1"
+=======
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+>>>>>>> Stashed changes
+  }
+}
