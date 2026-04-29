@@ -9,6 +9,6 @@ route.get('/', permisosController.getAll)
 route.get('/:id', permisosController.getOne)
 route.put('/:id', verificarToken, permisosController.update)
 route.delete('/:id', verificarToken, permisosController.delete)
-route.post('/:permisoId/comprar', verificarToken, permisosController.buyPermisos)
+route.post('/:permisoId/solicitar', verificarToken, permisosController.buyPermisos)
 
 export default route;

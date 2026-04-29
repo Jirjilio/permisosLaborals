@@ -10,3 +10,4 @@ class UsuarioModelo{
         }
     }
 }
+export default new usuariosModelo

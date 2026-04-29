@@ -1,8 +1,8 @@
 //import ObjectID from "mongodb"
 //import dbClient from "../config/dbClient.js";
 import mongoose from "mongoose";
-import Permiso from "../backend/schemas/permisos.js";
-import usuarios from "../backend/schemas/usuarios.js";
+import Permiso from "../schemas/permisos.js";
+import usuarios from "../schemas/users.js";
 
 class permisosModelo {
 
