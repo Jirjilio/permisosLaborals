@@ -1,5 +1,4 @@
 {
-<<<<<<< Updated upstream
   "name": "permisoslaborals",
   "version": "1.0.0",
   "description": "",
@@ -21,6 +20,7 @@
     "body-parser": "^2.2.2",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+<<<<<<< Updated upstream
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.1.1",
     "mongoose": "^9.5.0",
@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "swagger-autogen": "^2.23.7"
+=======
+    "mongodb": "^7.1.1"
+>>>>>>> Stashed changes
   }
 }

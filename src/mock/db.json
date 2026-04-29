@@ -1,0 +1,22 @@
+{
+  "empleats": [
+    {
+      "id": "1",
+      "nom": "Admin",
+      "primerCognom": "Test",
+      "email": "admin@test.com",
+      "usuari": "admin",
+      "password": "1234",
+      "rol": "admin"
+    },
+    {
+      "id": "2",
+      "nom": "Joan",
+      "primerCognom": "Garcia",
+      "email": "joan@test.com",
+      "usuari": "joan",
+      "password": "1234",
+      "rol": "basic"
+    }
+  ]
+}
