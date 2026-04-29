@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-4">
+      <h2>Login</h2>
+
+      <form [formGroup]="loginForm">
+        <div class="mb-3">
+          <label>Usuari</label>
+          <input type="text" class="form-control" formControlName="usuari">
+        </div>
+
+        <div class="mb-3">
+          <label>Password</label>
+          <input type="password" class="form-control" formControlName="password">
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Entrar</button>
+      </form>
+
+    </div>
+  </div>
+</div>
