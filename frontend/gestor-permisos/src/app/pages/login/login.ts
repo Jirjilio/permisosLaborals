@@ -45,7 +45,6 @@ export class Login {
         return;
       }
 
-      // Fallback por seguridad si llega un rol no esperado
       this.router.navigate(['/login']);
     });
   }
