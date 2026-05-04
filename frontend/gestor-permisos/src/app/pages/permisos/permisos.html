@@ -1,1 +1,179 @@
-<p>permisos works!</p>
+<div class="container-fluid mt-4">
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Llista de permisos</h5>
+        </div>
+
+        <div class="card-body">
+          @if (permisos.length > 0) {
+            <div class="table-responsive">
+              <table class="table table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Inici</th>
+                  <th>Final</th>
+                  <th>Tipus</th>
+                  <th>Descripcio</th>
+                  <th>Estat</th>
+                  <th>Creador</th>
+                  <th>Tramitador</th>
+                  <th>Accions</th>
+                </tr>
+                </thead>
+                <tbody>
+                  @for (item of permisos; track item.id || $index) {
+                    <tr>
+                      <td>{{ $index + 1 }}</td>
+                      <td>{{ item.dataInici }}</td>
+                      <td>{{ item.dataFinal }}</td>
+                      <td>{{ item.tipus }}</td>
+                      <td>{{ item.descripcio }}</td>
+                      <td>
+                        @if (item.estat === 'aprovat') {
+                          <span class="badge bg-success">Aprovat</span>
+                        } @else if (item.estat === 'refusat') {
+                          <span class="badge bg-danger">Refusat</span>
+                        } @else {
+                          <span class="badge bg-warning text-dark">Pendent</span>
+                        }
+                      </td>
+                      <td>{{ item.empleatCreadorId }}</td>
+                      <td>{{ item.empleatTramitadorId || '—' }}</td>
+                      <td class="d-flex gap-1 flex-wrap">
+                        <button type="button" class="btn btn-sm btn-warning" (click)="onEdit(item)">
+                          Editar
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="onDeletePermis(item.id)">
+                          Eliminar
+                        </button>
+
+                        @if (esAdmin && item.estat === 'pendent') {
+                          <button type="button" class="btn btn-sm btn-success" (click)="onTramitar(item, 'aprovat')">
+                            Aprovar
+                          </button>
+                          <button type="button" class="btn btn-sm btn-secondary" (click)="onTramitar(item, 'refusat')">
+                            Refusar
+                          </button>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          } @else {
+            <div class="alert alert-info mb-0">
+              No hi ha permisos registrats.
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">{{ permisObj.id ? 'Editar permis' : 'Nou permis' }}</h5>
+        </div>
+
+        <div class="card-body">
+          <form #formValue="ngForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="dataInici" class="form-label">Data inici *</label>
+                <input
+                  id="dataInici"
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="permisObj.dataInici"
+                  name="dataInici"
+                  required />
+              </div>
+
+              <div class="col-md-6">
+                <label for="dataFinal" class="form-label">Data final *</label>
+                <input
+                  id="dataFinal"
+                  type="date"
+                  class="form-control"
+                  [(ngModel)]="permisObj.dataFinal"
+                  name="dataFinal"
+                  required />
+              </div>
+
+              <div class="col-12">
+                <label for="tipus" class="form-label">Tipus *</label>
+                <select
+                  id="tipus"
+                  class="form-select"
+                  [(ngModel)]="permisObj.tipus"
+                  name="tipus"
+                  required>
+                  <option value="">Selecciona un tipus</option>
+                  @for (tipus of tipusOptions; track tipus) {
+                    <option [value]="tipus">{{ tipus }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="descripcio" class="form-label">Descripcio *</label>
+                <textarea
+                  id="descripcio"
+                  class="form-control"
+                  rows="3"
+                  [(ngModel)]="permisObj.descripcio"
+                  name="descripcio"
+                  required></textarea>
+              </div>
+
+              <div class="col-12">
+                <label for="estat" class="form-label">Estat</label>
+                @if (esAdmin) {
+                  <select
+                    id="estat"
+                    class="form-select"
+                    [(ngModel)]="permisObj.estat"
+                    name="estat">
+                    <option value="pendent">Pendent</option>
+                    <option value="aprovat">Aprovat</option>
+                    <option value="refusat">Refusat</option>
+                  </select>
+                } @else {
+                  <input id="estat" type="text" class="form-control" value="pendent" disabled />
+                }
+              </div>
+
+              <div class="col-12 d-flex justify-content-between align-items-center pt-2">
+                <button type="button" class="btn btn-outline-secondary" (click)="onReset()">
+                  Netejar
+                </button>
+
+                @if (permisObj.id) {
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    [disabled]="formValue.invalid"
+                    (click)="onUpdatePermis()">
+                    Actualitzar
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn btn-success"
+                    [disabled]="formValue.invalid"
+                    (click)="onSavePermis()">
+                    Guardar
+                  </button>
+                }
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
