@@ -1,5 +1,5 @@
 export interface Empleat {
-  _id?: string;
+  id?: string;
   nom: string;
   primerCognom: string;
   segonCognom?: string;
