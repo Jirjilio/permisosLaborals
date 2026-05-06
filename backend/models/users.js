@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import usuarios from '../schemas/users.js';
 
-class UsuarioModelo{
+class usuariosModelo{
     async create(usuario){
         try {
             return await usuarios.create(usuario)

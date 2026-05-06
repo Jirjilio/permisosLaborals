@@ -6,9 +6,9 @@ class permisoController {
     }
     //Create
     async create(req, res){
-        const {nombre, tipo, precio, lanzado} = req.body;
+        const {empleado, creacion, fechaInicio, fechaFinal, tipo, descripcion, estado, adminGestor, fechaTramitado} = req.body;
         try {
-            const data = await videojuegosModelo.create({nombre, tipo, precio, lanzado})
+            const data = await permisosModelo.create({empleado, creacion, fechaInicio, fechaFinal, tipo, descripcion, estado, adminGestor, fechaTramitado})
             res.status(201).json(data)
         } catch (error) {
             console.error("Error en el create", error)
