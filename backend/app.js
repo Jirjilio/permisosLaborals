@@ -1,9 +1,9 @@
 import 'dotenv/config'
 import express from 'express'
-import routesPermisos from './backend/routes/permisos.js'
-import routesUsuarios from './backend/routes/users.js'
+import routesPermisos from './routes/permisos.js'
+import routesUsuarios from './routes/users.js'
 import bodyParser from 'body-parser'
-import dbClient from './backend/config/dbClient.js'
+import dbClient from './config/dbClient.js'
 
 const app = express();
 

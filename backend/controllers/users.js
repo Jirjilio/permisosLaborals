@@ -9,7 +9,7 @@ class usuarioController {
     //Registrar usuario
     async register(req, res){
         try {
-            const { email, nombre, telefono, password } = req.body;
+            const { nombre, apellido1, apellido2, email, usuario, password } = req.body;
 
             const usuarioExiste = await UsuarioModelo.getOne({ email });
             if (usuarioExiste) {
@@ -19,9 +19,11 @@ class usuarioController {
             const passEncriptada = await bcrypt.hash(password, 10);
 
             const data = await UsuarioModelo.create({
-                email,
                 nombre,
-                telefono,
+                apellido1,
+                apellido2,
+                email,
+                usuario,
                 password: passEncriptada
             });
             res.status(201).json(data)
@@ -32,10 +34,10 @@ class usuarioController {
     }
     //get todo
     async login(req, res){
-        const { email, password } = req.body;
+        const { usuario, password } = req.body;
         console.log("Body recibido:", req.body);
 
-        const usuarioExiste = await UsuarioModelo.getOne({ email });
+        const usuarioExiste = await UsuarioModelo.getOne({ usuario });
         if (!usuarioExiste) {
             return res.status(400).json({ error: 'El usuario no existe' });
         }
@@ -46,14 +48,14 @@ class usuarioController {
             return res.status(400).json({ error: 'Contraseña incorrecta' });
         }
 
-        const token = generarToken(email);
+        const token = generarToken(usuario);
         
         res.status(200).json({ message: 'Inicio de sesión exitoso' , token});
     }
     //get id
     async profile(req, res){
         try {
-            const data = await UsuarioModelo.getOne({ email: req.emailConectado })
+            const data = await UsuarioModelo.getOne({ usuario: req.usuarioConectado })
             res.status(201).json(data)
         } catch (error) {
             console.error("Error en el get one")
