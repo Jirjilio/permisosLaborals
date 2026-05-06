@@ -1,0 +1,64 @@
+{
+  "empleats": [
+    {
+      "id": "1",
+      "nom": "Admin",
+      "primerCognom": "Test",
+      "segonCognom": "",
+      "email": "admin@test.com",
+      "usuari": "admin",
+      "password": "1234",
+      "imatge": "https://i.pinimg.com/474x/c6/2d/02/c62d0217081e0fb0af3cedc58bac6d5b.jpg",
+      "rol": "admin"
+    },
+    {
+      "id": "2",
+      "nom": "Joan",
+      "primerCognom": "Garcia",
+      "segonCognom": "jose",
+      "email": "joan@test.com",
+      "usuari": "joan",
+      "password": "1234",
+      "imatge": "",
+      "rol": "basic"
+    },
+    {
+      "nom": "test",
+      "primerCognom": "testou",
+      "segonCognom": "no",
+      "email": "test222@gmail.com",
+      "usuari": "test1",
+      "password": "1234",
+      "imatge": "",
+      "rol": "basic",
+      "id": "FsFSD_Uw4VA"
+    }
+  ],
+  "permisos": [
+    {
+      "id": "p1",
+      "empleatCreadorId": "2",
+      "dataCreacio": "2026-05-04T10:00:00.000Z",
+      "dataInici": "2026-05-05",
+      "dataFinal": "2026-05-12",
+      "tipus": "hospitalitzacio",
+      "descripcio": "Baixa medica curta",
+      "estat": "refusat",
+      "empleatTramitadorId": "1",
+      "dataTramitacio": "2026-05-04T15:03:27.733Z"
+    },
+    {
+      "empleatCreadorId": "1",
+      "dataCreacio": "2026-05-04T15:03:46.211Z",
+      "dataInici": "2026-05-14",
+      "dataFinal": "2026-05-29",
+      "tipus": "matrimoni",
+      "descripcio": "jaja",
+      "estat": "pendent",
+      "empleatTramitadorId": "",
+      "dataTramitacio": "",
+      "id": "uQFB45k6ahU"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
