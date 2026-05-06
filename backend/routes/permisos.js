@@ -1,14 +1,13 @@
 import express from 'express'
 const route = express.Router()
-import permisosController from '../controllers/permisos.js'
+import permisoController from '../controllers/permisos.js'
 import { verificarToken } from '../helpers/autenticacion.js'
 
 
-route.post('/', permisosController.create)
-route.get('/', permisosController.getAll)
-route.get('/:id', permisosController.getOne)
-route.put('/:id', verificarToken, permisosController.update)
-route.delete('/:id', verificarToken, permisosController.delete)
-route.post('/:permisoId/comprar', verificarToken, permisosController.buyPermisos)
-
+route.post('/', permisoController.create)
+route.get('/', permisoController.getAll)
+route.get('/:id', permisoController.getOne)
+route.put('/:id', verificarToken, permisoController.update)
+route.delete('/:id', verificarToken, permisoController.delete)
+route.post('/:permisoId/solicitar', verificarToken, permisoController.pedirPermiso)
 export default route;
