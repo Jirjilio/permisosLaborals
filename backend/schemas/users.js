@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const usuarioSchema = new mongoose.Schema(
     {
         nombre: { type: String, required: true, trim: true },
