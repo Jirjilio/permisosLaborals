@@ -1,22 +1,32 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-      <h2>Login</h2>
+<div class="login-page">
+        <div class="login-card">
+          <div class="login-logo">🏢</div>
 
-      <form [formGroup]="loginForm">
-        <div class="mb-3">
-          <label>Usuari</label>
-          <input type="text" class="form-control" formControlName="usuari">
+          <h2 class="text-center mb-1">Iniciar sessió</h2>
+          <p class="text-center text-secondary mb-4">Accedeix al gestor de permisos</p>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label class="gp-label" for="usuari">Usuari</label>
+              <input
+                id="usuari"
+                type="text"
+                class="gp-input"
+                formControlName="usuari"
+                placeholder="Introdueix l'usuari">
+            </div>
+
+            <div class="mb-4">
+              <label class="gp-label" for="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="gp-input"
+                formControlName="password"
+                placeholder="Introdueix la contrasenya">
+            </div>
+
+            <button type="submit" class="btn-gp-primary w-100">Entrar</button>
+          </form>
         </div>
-
-        <div class="mb-3">
-          <label>Password</label>
-          <input type="password" class="form-control" formControlName="password">
-        </div>
-
-        <button type="submit" class="btn btn-primary" (click)="onSubmit()">Entrar</button>
-      </form>
-
-    </div>
-  </div>
-</div>
+      </div>

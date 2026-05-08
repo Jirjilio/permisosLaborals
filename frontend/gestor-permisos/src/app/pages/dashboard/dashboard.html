@@ -1,1 +1,46 @@
-<p>dashboard works!</p>
+<div class="page-header">
+      <div class="page-title">Dashboard de permisos</div>
+      <div class="page-subtitle">Resum de permisos per estat</div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="stat-card stat-pending">
+          <div class="stat-value">{{ totalPendents }}</div>
+          <div class="stat-label">Pendents</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="stat-card stat-approved">
+          <div class="stat-value">{{ totalAprovats }}</div>
+          <div class="stat-label">Aprovats</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="stat-card stat-rejected">
+          <div class="stat-value">{{ totalRefusats }}</div>
+          <div class="stat-label">Refusats</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gp-card">
+      <div class="gp-card-header">
+        <div class="gp-card-title">Distribució d'estats</div>
+      </div>
+
+      <div class="gp-card-body">
+        <div class="chart-wrapper">
+          <canvas #pieChart></canvas>
+        </div>
+
+        @if (permisos.length === 0) {
+          <div class="empty-state mt-4">
+            <div class="empty-state-icon">📭</div>
+            <div class="empty-state-text">No hi ha permisos disponibles.</div>
+          </div>
+        }
+      </div>
+    </div>

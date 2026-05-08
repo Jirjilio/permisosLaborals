@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.card-header {
+  border-bottom: 1px solid var(--border);
+}
+
+.form-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-control,
+.form-select,
+textarea.form-control {
+  background-color: var(--bg-secondary);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  white-space: nowrap;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.d-flex.gap-1.flex-wrap {
+  min-width: 220px;
+}
+
+.alert {
+  border: 1px solid var(--border);
+}

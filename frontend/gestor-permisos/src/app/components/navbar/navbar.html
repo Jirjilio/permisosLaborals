@@ -1,0 +1,43 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-icon">🏢</div>
+    <div>
+      <div class="sidebar-brand-text">Gestor de permisos</div>
+      <div class="sidebar-brand-sub">Laborals</div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-section-label">Menú</div>
+
+    <a class="sidebar-link" routerLink="/dashboard" routerLinkActive="active">
+      <span class="icon">📊</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a class="sidebar-link" routerLink="/empleats" routerLinkActive="active">
+      <span class="icon">👥</span>
+      <span>Empleats</span>
+    </a>
+
+    <a class="sidebar-link" routerLink="/permisos" routerLinkActive="active">
+      <span class="icon">📝</span>
+      <span>Permisos</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="user-avatar">U</div>
+      <div>
+        <div class="user-name">Sessió iniciada</div>
+        <div class="user-role">Usuari actiu</div>
+      </div>
+    </div>
+
+    <button type="button" class="sidebar-link" (click)="logout()">
+      <span class="icon">🚪</span>
+      <span>Tancar sessió</span>
+    </button>
+  </div>
+</aside>

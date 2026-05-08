@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.gp-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.stat-card {
+  height: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 320px;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 20px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .chart-wrapper {
+    height: 260px;
+  }
+}
