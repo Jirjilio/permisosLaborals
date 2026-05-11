@@ -26,5 +26,13 @@ class usuariosModelo{
         }
         
     }
+
+    async getAll(){
+        try {
+            return await usuarios.find();
+        } catch (error) {
+            console.error("Error al obtener todos los usuarios:", error);
+    }
+    }
 }
 export default new usuariosModelo

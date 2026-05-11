@@ -1,13 +1,14 @@
 import { generarToken } from '../helpers/autenticacion.js';
 import usuariosModelo from '../models/users.js';
 import bcrypt from 'bcrypt';
-
+/* Controlador para los administradores, revisar si podemos aplicar el mismo controlador para los usuarios normales,
+ o si es necesario crear otro controlador para ellos, ya que el admin tiene más permisos que el usuario normal */
 class usuarioController {
     constructor() {
 
     }
-    //Registrar usuario
-    async register(req, res){
+    //Crear un nuevo empleado, solo lo puede hacer el admin, el rol se asigna automáticamente a user
+    async crearEmpleado(req, res){
         try {
             const { nombre, apellido1, apellido2, email, usuario, password } = req.body;
 
@@ -33,7 +34,7 @@ class usuarioController {
             res.status(500).send({error})
         }
     }
-    //get todo
+    //login, servirá para admins y usuarios normales
     async login(req, res){
         const { usuario, password } = req.body;
         console.log("Body recibido:", req.body);
@@ -51,13 +52,13 @@ class usuarioController {
 
         const token = generarToken(usuario);
         
-        res.status(200).json({ message: 'Inicio de sesión exitoso' , token});
+        res.status(200).json({  token,user: usuarioExiste.usuario ,rol: usuarioExiste.rol });
         console.log("inicio de sesión exitoso");
     }
     //get id
-    async profile(req, res){
+    async obtenerEmpleado(req, res){
         try {
-            const data = await usuariosModelo.getOne({ usuario: req.usuarioConectado })
+            const data = await usuariosModelo.getOne({ usuario: req.params.usuario })
             res.status(201).json(data)
         } catch (error) {
             console.error("Error en el get one")
@@ -65,10 +66,10 @@ class usuarioController {
         }
     }
     //update
-    async update(req, res){
+    async updateEmpleado(req, res){
         try {
-            const { id } = req.params
-            const data = await usuariosModelo.update(id, req.body)
+            const { usuario } = req.params
+            const data = await usuariosModelo.update(usuario, req.body)
             res.status(200).json({data})
         } catch (error) {
             console.error("Error en el update")
@@ -76,10 +77,10 @@ class usuarioController {
         }
     }
     //delete 
-    async delete(req, res){
+    async deleteEmpleado(req, res){
         try {
-            const { id } = req.params
-            const data = await usuariosModelo.delete(id)
+            const { usuario } = req.params
+            const data = await usuariosModelo.delete(usuario)
             res.status(206).json({data})
         } catch (error) {
             console.error("Error en el delete")
@@ -87,21 +88,13 @@ class usuarioController {
         }
     }
 
-    async misPermisos(req, res){
+    async todosEmpleados(req, res){
         try {
-            const {id} = req.params;
-
-            const usuarioExiste = await usuariosModelo.getOne({ _id: id });
-
-            if (!usuarioExiste) {
-                return res.status(400).json({ error: 'El usuario no existe' });
-            }
-
-            const data = await usuariosModelo.misPermisos(id);
-            res.status(200).json(data);
-            
+            const data = await usuariosModelo.getAll()
+            res.status(200).json({data})
         } catch (error) {
-            res.status(500).json({ mensaje: error.message })
+            console.error("Error en el get all")
+            res.status(500).send({error})
         }
     }
 }
