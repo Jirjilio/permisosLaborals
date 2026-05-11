@@ -10,7 +10,7 @@ import { Permis } from '../../models/permis';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
+  styleUrls: ['./dashboard.scss'],
 })
 export class Dashboard implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('pieChart') pieChart?: ElementRef<HTMLCanvasElement>;

@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-layout',
   imports: [],
   templateUrl: './layout.html',
-  styleUrl: './layout.scss',
+  styleUrls: ['./layout.scss'],
 })
 export class Layout {
 

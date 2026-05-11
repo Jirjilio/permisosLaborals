@@ -6,8 +6,8 @@ import { Component, OnInit } from '@angular/core';
       import { Empleats as EmpleatsService } from '../../services/empleats';
       import { Permis, EstatPermis } from '../../models/permis';
       import { Empleat } from '../../models/empleat';
-import { NotificacionesService } from '../../services/notificaciones';
-              
+import { NotificacionesService } from '../../services/notificaciones.service';
+
 
 
 type UsuariSessio = {
@@ -22,7 +22,7 @@ type UsuariSessio = {
         standalone: true,
         imports: [CommonModule, FormsModule],
         templateUrl: './permisos.html',
-        styleUrl: './permisos.scss',
+        styleUrls: ['./permisos.scss'],
       })
       export class Permisos implements OnInit {
         permisos: Permis[] = [];

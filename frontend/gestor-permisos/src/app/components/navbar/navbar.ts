@@ -14,7 +14,7 @@ type UsuariSessio = {
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss',
+  styleUrls: ['./navbar.scss'],
 })
 export class Navbar implements OnInit {
   user: UsuariSessio | null = null;

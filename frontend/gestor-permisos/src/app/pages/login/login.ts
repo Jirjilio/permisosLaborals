@@ -8,7 +8,7 @@ import { Auth } from '../../services/auth';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss',
+  styleUrls: ['./login.scss'],
 })
 export class Login {
   loginForm: FormGroup;
@@ -39,9 +39,11 @@ export class Login {
     }
 
     this.loading = true;
+    console.log('Login.onSubmit: iniciando login para', usuari);
 
     this.auth.login(usuari, password).subscribe({
       next: (user) => {
+        console.log('Login.onSubmit: respuesta de Auth.login ->', user);
         this.loading = false;
 
         if (!user) {

@@ -22,7 +22,7 @@ type UsuariSessio = {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './permis-detall.html',
-  styleUrl: './permis-detall.scss',
+  styleUrls: ['./permis-detall.scss'],
 })
 export class PermisDetall implements OnInit {
   permis: Permis | null = null;

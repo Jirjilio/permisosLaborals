@@ -59,6 +59,17 @@
       "dataTramitacio": "2026-05-11T13:58:54.115Z",
       "id": "uQFB45k6ahU"
     }
+
+  ],
+  "login": [
+    {
+      "id": "1",
+      "usuari": "admin",
+      "rol": "admin",
+      "password": "1234",
+      "token": "12345"
+    }
   ],
   "$schema": "./node_modules/json-server/schema.json"
 }
+

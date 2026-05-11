@@ -7,7 +7,7 @@ import { NotificacionesService, Notificacion } from '../../services/notificacion
   standalone: true,
   imports: [CommonModule],
   templateUrl: './notificaciones.html',
-  styleUrl: './notificaciones.scss',
+  styleUrls: ['./notificaciones.scss'],
 })
 export class NotificacionesComponent implements OnInit {
   notificaciones: Notificacion[] = [];
