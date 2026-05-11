@@ -26,7 +26,15 @@
                 placeholder="Introdueix la contrasenya">
             </div>
 
-            <button type="submit" class="btn-gp-primary w-100">Entrar</button>
+            @if (errorMessage) {
+              <div class="alert alert-danger py-2">
+                {{ errorMessage }}
+              </div>
+            }
+
+            <button type="submit" class="btn-gp-primary w-100" [disabled]="loading">
+              {{ loading ? 'Entrant...' : 'Entrar' }}
+            </button>
           </form>
         </div>
       </div>

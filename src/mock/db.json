@@ -54,9 +54,9 @@
       "dataFinal": "2026-05-29",
       "tipus": "matrimoni",
       "descripcio": "jaja",
-      "estat": "pendent",
-      "empleatTramitadorId": "",
-      "dataTramitacio": "",
+      "estat": "aprovat",
+      "empleatTramitadorId": "1",
+      "dataTramitacio": "2026-05-11T13:58:54.115Z",
       "id": "uQFB45k6ahU"
     }
   ],

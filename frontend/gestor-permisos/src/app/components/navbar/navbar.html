@@ -28,10 +28,10 @@
 
   <div class="sidebar-footer">
     <div class="user-card">
-      <div class="user-avatar">U</div>
+      <div class="user-avatar">{{ user?.nom?.charAt(0) || 'U' }}</div>
       <div>
-        <div class="user-name">Sessió iniciada</div>
-        <div class="user-role">Usuari actiu</div>
+        <div class="user-name">{{ user?.nom || 'Usuari' }}</div>
+        <div class="user-role">{{ user?.rol || '' }}</div>
       </div>
     </div>
 

@@ -1,259 +1,259 @@
 <div class="page-header">
-  <div class="page-title">Gestió de permisos</div>
-  <div class="page-subtitle">Crear, filtrar i tramitar permisos laborals</div>
-</div>
+                               <div class="page-title">Gestió de permisos</div>
+                               <div class="page-subtitle">Crear, filtrar i tramitar permisos laborals</div>
+                             </div>
 
-<div class="row g-4">
-  <div class="col-lg-7">
-    <div class="gp-card mb-4">
-      <div class="gp-card-header">
-        <div class="gp-card-title">Filtres</div>
-      </div>
+                             <div class="row g-4">
+                               <div class="col-lg-7">
+                                 <div class="gp-card mb-4">
+                                   <div class="gp-card-header">
+                                     <div class="gp-card-title">Filtres</div>
+                                   </div>
 
-      <div class="gp-card-body">
-        <div class="row g-3">
-          <div class="col-md-4">
-            <label for="filtreEstat" class="gp-label">Estat</label>
-            <select
-              id="filtreEstat"
-              class="gp-select"
-              [(ngModel)]="filtreEstat"
-              (change)="applyFilters()">
-              <option value="">Tots els estats</option>
-              <option value="pendent">Pendent</option>
-              <option value="aprovat">Aprovat</option>
-              <option value="refusat">Refusat</option>
-            </select>
-          </div>
+                                   <div class="gp-card-body">
+                                     <div class="row g-3">
+                                       <div class="col-md-4">
+                                         <label for="filtreEstat" class="gp-label">Estat</label>
+                                         <select
+                                           id="filtreEstat"
+                                           class="gp-select"
+                                           [(ngModel)]="filtreEstat"
+                                           (change)="applyFilters()">
+                                           <option value="">Tots els estats</option>
+                                           <option value="pendent">Pendent</option>
+                                           <option value="aprovat">Aprovat</option>
+                                           <option value="refusat">Refusat</option>
+                                         </select>
+                                       </div>
 
-          @if (esAdmin) {
-            <div class="col-md-4">
-              <label for="filtreCreador" class="gp-label">Creador</label>
-              <select
-                id="filtreCreador"
-                class="gp-select"
-                [(ngModel)]="filtreCreador"
-                (change)="applyFilters()">
-                <option value="">Tots els creadors</option>
-                @for (creador of creadors; track creador) {
-                  <option [value]="creador">{{ creador }}</option>
-                }
-              </select>
-            </div>
+                                       @if (esAdmin) {
+                                         <div class="col-md-4">
+                                           <label for="filtreCreador" class="gp-label">Creador</label>
+                                           <select
+                                             id="filtreCreador"
+                                             class="gp-select"
+                                             [(ngModel)]="filtreCreador"
+                                             (change)="applyFilters()">
+                                             <option value="">Tots els creadors</option>
+                                             @for (creador of creadors; track creador) {
+                                               <option [value]="creador">{{ getEmpleatNom(creador) }}</option>
+                                             }
+                                           </select>
+                                         </div>
 
-            <div class="col-md-4">
-              <label for="filtreTramitador" class="gp-label">Tramitador</label>
-              <select
-                id="filtreTramitador"
-                class="gp-select"
-                [(ngModel)]="filtreTramitador"
-                (change)="applyFilters()">
-                <option value="">Tots els tramitadors</option>
-                @for (tramitador of tramitadors; track tramitador) {
-                  <option [value]="tramitador">{{ tramitador }}</option>
-                }
-              </select>
-            </div>
-          }
+                                         <div class="col-md-4">
+                                           <label for="filtreTramitador" class="gp-label">Tramitador</label>
+                                           <select
+                                             id="filtreTramitador"
+                                             class="gp-select"
+                                             [(ngModel)]="filtreTramitador"
+                                             (change)="applyFilters()">
+                                             <option value="">Tots els tramitadors</option>
+                                             @for (tramitador of tramitadors; track tramitador) {
+                                               <option [value]="tramitador">{{ getEmpleatNom(tramitador) }}</option>
+                                             }
+                                           </select>
+                                         </div>
+                                       }
 
-          <div class="col-12 d-flex justify-content-end pt-2">
-            <button type="button" class="btn-gp-secondary" (click)="resetFilters()">
-              Netejar filtres
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+                                       <div class="col-12 d-flex justify-content-end pt-2">
+                                         <button type="button" class="btn-gp-secondary" (click)="resetFilters()">
+                                           Netejar filtres
+                                         </button>
+                                       </div>
+                                     </div>
+                                   </div>
+                                 </div>
 
-    <div class="gp-card">
-      <div class="gp-card-header">
-        <div class="gp-card-title">Llista de permisos</div>
-      </div>
+                                 <div class="gp-card">
+                                   <div class="gp-card-header">
+                                     <div class="gp-card-title">Llista de permisos</div>
+                                   </div>
 
-      <div class="gp-card-body">
-        @if (permisosFiltraciados.length > 0) {
-          <div class="table-responsive">
-            <table class="gp-table">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>Data creació</th>
-                <th>Inici</th>
-                <th>Final</th>
-                <th>Tipus</th>
-                <th>Descripció</th>
-                <th>Estat</th>
-                <th>Creador</th>
-                <th>Tramitador</th>
-                <th>Accions</th>
-              </tr>
-              </thead>
+                                   <div class="gp-card-body">
+                                     @if (permisosFiltraciados.length > 0) {
+                                       <div class="table-responsive permisos-table-scroll">
+                                         <table class="gp-table permisos-table">
+                                           <thead>
+                                             <tr>
+                                               <th>#</th>
+                                               <th>Data creació</th>
+                                               <th>Inici</th>
+                                               <th>Final</th>
+                                               <th>Tipus</th>
+                                               <th>Descripció</th>
+                                               <th>Estat</th>
+                                               <th>Creador</th>
+                                               <th>Tramitador</th>
+                                               <th>Accions</th>
+                                             </tr>
+                                           </thead>
 
-              <tbody>
-                @for (item of permisosFiltraciados; track item.id || $index) {
-                  <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ item.dataCreacio || '—' }}</td>
-                    <td>{{ item.dataInici }}</td>
-                    <td>{{ item.dataFinal }}</td>
-                    <td>{{ item.tipus }}</td>
-                    <td>{{ item.descripcio }}</td>
-                    <td>
-                      @if (item.estat === 'aprovat') {
-                        <span class="badge-aprovat">Aprovat</span>
-                      } @else if (item.estat === 'refusat') {
-                        <span class="badge-refusat">Refusat</span>
-                      } @else {
-                        <span class="badge-pendent">Pendent</span>
-                      }
-                    </td>
-                    <td>{{ item.empleatCreadorId }}</td>
-                    <td>{{ item.empleatTramitadorId || '—' }}</td>
-                    <td>
-                      <div class="d-flex gap-1 flex-wrap">
-                        <button type="button" class="btn-gp-edit" (click)="onEdit(item)">
-                          Editar
-                        </button>
+                                           <tbody>
+                                             @for (item of permisosFiltraciados; track item.id || $index) {
+                                               <tr>
+                                                 <td>{{ $index + 1 }}</td>
+                                                 <td>{{ item.dataCreacio || '—' }}</td>
+                                                 <td>{{ item.dataInici }}</td>
+                                                 <td>{{ item.dataFinal }}</td>
+                                                 <td>{{ item.tipus }}</td>
+                                                 <td>{{ item.descripcio }}</td>
+                                                 <td>
+                                                   @if (item.estat === 'aprovat') {
+                                                     <span class="badge-aprovat">Aprovat</span>
+                                                   } @else if (item.estat === 'refusat') {
+                                                     <span class="badge-refusat">Refusat</span>
+                                                   } @else {
+                                                     <span class="badge-pendent">Pendent</span>
+                                                   }
+                                                 </td>
+                                                 <td>{{ getEmpleatNom(item.empleatCreadorId) }}</td>
+                                                 <td>{{ getEmpleatNom(item.empleatTramitadorId) }}</td>
+                                                 <td class="actions-cell">
+                                                   <div class="d-flex gap-1 flex-nowrap actions-group">
+                                                     <button type="button" class="btn-gp-edit" (click)="onEdit(item)">
+                                                       Editar
+                                                     </button>
 
-                        <button type="button" class="btn-gp-danger" (click)="onDeletePermis(item.id)">
-                          Eliminar
-                        </button>
+                                                     <button type="button" class="btn-gp-danger" (click)="onDeletePermis(item.id)">
+                                                       Eliminar
+                                                     </button>
 
-                        @if (esAdmin && item.estat === 'pendent') {
-                          <button type="button" class="btn-gp-approve" (click)="onTramitar(item, 'aprovat')">
-                            Aprovar
-                          </button>
-                          <button type="button" class="btn-gp-reject" (click)="onTramitar(item, 'refusat')">
-                            Refusar
-                          </button>
-                        }
-                      </div>
-                    </td>
-                  </tr>
-                }
-              </tbody>
-            </table>
-          </div>
-        } @else {
-          <div class="empty-state">
-            <div class="empty-state-icon">📝</div>
-            <div class="empty-state-text">
-              No hi ha permisos registrats amb els filtres seleccionats.
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-  </div>
+                                                     @if (esAdmin && item.estat === 'pendent') {
+                                                       <button type="button" class="btn-gp-approve" (click)="onTramitar(item, 'aprovat')">
+                                                         Aprovar
+                                                       </button>
+                                                       <button type="button" class="btn-gp-reject" (click)="onTramitar(item, 'refusat')">
+                                                         Refusar
+                                                       </button>
+                                                     }
+                                                   </div>
+                                                 </td>
+                                               </tr>
+                                             }
+                                           </tbody>
+                                         </table>
+                                       </div>
+                                     } @else {
+                                       <div class="empty-state">
+                                         <div class="empty-state-icon">📝</div>
+                                         <div class="empty-state-text">
+                                           No hi ha permisos registrats amb els filtres seleccionats.
+                                         </div>
+                                       </div>
+                                     }
+                                   </div>
+                                 </div>
+                               </div>
 
-  <div class="col-lg-5">
-    <div class="gp-card">
-      <div class="gp-card-header">
-        <div class="gp-card-title">
-          {{ permisObj.id ? 'Editar permís' : 'Nou permís' }}
-        </div>
-      </div>
+                               <div class="col-lg-5">
+                                 <div class="gp-card">
+                                   <div class="gp-card-header">
+                                     <div class="gp-card-title">
+                                       {{ permisObj.id ? 'Editar permís' : 'Nou permís' }}
+                                     </div>
+                                   </div>
 
-      <div class="gp-card-body">
-        <form #formValue="ngForm">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="dataInici" class="gp-label">Data inici *</label>
-              <input
-                id="dataInici"
-                type="date"
-                class="gp-input"
-                [(ngModel)]="permisObj.dataInici"
-                name="dataInici"
-                required>
-            </div>
+                                   <div class="gp-card-body">
+                                     <form #formValue="ngForm">
+                                       <div class="row g-3">
+                                         <div class="col-md-6">
+                                           <label for="dataInici" class="gp-label">Data inici *</label>
+                                           <input
+                                             id="dataInici"
+                                             type="date"
+                                             class="gp-input"
+                                             [(ngModel)]="permisObj.dataInici"
+                                             name="dataInici"
+                                             required>
+                                         </div>
 
-            <div class="col-md-6">
-              <label for="dataFinal" class="gp-label">Data final *</label>
-              <input
-                id="dataFinal"
-                type="date"
-                class="gp-input"
-                [(ngModel)]="permisObj.dataFinal"
-                name="dataFinal"
-                required>
-            </div>
+                                         <div class="col-md-6">
+                                           <label for="dataFinal" class="gp-label">Data final *</label>
+                                           <input
+                                             id="dataFinal"
+                                             type="date"
+                                             class="gp-input"
+                                             [(ngModel)]="permisObj.dataFinal"
+                                             name="dataFinal"
+                                             required>
+                                         </div>
 
-            <div class="col-12">
-              <label for="tipus" class="gp-label">Tipus *</label>
-              <select
-                id="tipus"
-                class="gp-select"
-                [(ngModel)]="permisObj.tipus"
-                name="tipus"
-                required>
-                <option value="">Selecciona un tipus</option>
-                @for (tipus of tipusOptions; track tipus) {
-                  <option [value]="tipus">{{ tipus }}</option>
-                }
-              </select>
-            </div>
+                                         <div class="col-12">
+                                           <label for="tipus" class="gp-label">Tipus *</label>
+                                           <select
+                                             id="tipus"
+                                             class="gp-select"
+                                             [(ngModel)]="permisObj.tipus"
+                                             name="tipus"
+                                             required>
+                                             <option value="">Selecciona un tipus</option>
+                                             @for (tipus of tipusOptions; track tipus) {
+                                               <option [value]="tipus">{{ tipus }}</option>
+                                             }
+                                           </select>
+                                         </div>
 
-            <div class="col-12">
-              <label for="descripcio" class="gp-label">Descripció *</label>
-              <textarea
-                id="descripcio"
-                class="gp-input"
-                rows="4"
-                [(ngModel)]="permisObj.descripcio"
-                name="descripcio"
-                required></textarea>
-            </div>
+                                         <div class="col-12">
+                                           <label for="descripcio" class="gp-label">Descripció *</label>
+                                           <textarea
+                                             id="descripcio"
+                                             class="gp-input"
+                                             rows="4"
+                                             [(ngModel)]="permisObj.descripcio"
+                                             name="descripcio"
+                                             required></textarea>
+                                         </div>
 
-            <div class="col-12">
-              <label class="gp-label" for="estatSelect">Estat</label>
+                                         <div class="col-12">
+                                           @if (esAdmin) {
+                                             <label class="gp-label" for="estatSelectAdmin">Estat</label>
+                                             <select
+                                               id="estatSelectAdmin"
+                                               class="gp-select"
+                                               [(ngModel)]="permisObj.estat"
+                                               name="estat">
+                                               <option value="pendent">Pendent</option>
+                                               <option value="aprovat">Aprovat</option>
+                                               <option value="refusat">Refusat</option>
+                                             </select>
+                                           } @else {
+                                             <label class="gp-label" for="estatTextBasic">Estat</label>
+                                             <input
+                                               id="estatTextBasic"
+                                               type="text"
+                                               class="gp-input"
+                                               value="pendent"
+                                               disabled>
+                                           }
+                                         </div>
 
-              @if (esAdmin) {
-                <select
-                  id="estatSelect"
-                  class="gp-select"
-                  [(ngModel)]="permisObj.estat"
-                  name="estat">
-                  <option value="pendent">Pendent</option>
-                  <option value="aprovat">Aprovat</option>
-                  <option value="refusat">Refusat</option>
-                </select>
-              } @else {
-                <input
-                  id="estatSelect"
-                  type="text"
-                  class="gp-input"
-                  value="pendent"
-                  disabled>
-              }
-            </div>
+                                         <div class="col-12 d-flex justify-content-between align-items-center pt-2">
+                                           <button type="button" class="btn-gp-secondary" (click)="onReset()">
+                                             Netejar
+                                           </button>
 
-            <div class="col-12 d-flex justify-content-between align-items-center pt-2">
-              <button type="button" class="btn-gp-secondary" (click)="onReset()">
-                Netejar
-              </button>
-
-              @if (permisObj.id) {
-                <button
-                  type="button"
-                  class="btn-gp-edit"
-                  [disabled]="formValue.invalid"
-                  (click)="onUpdatePermis()">
-                  Actualitzar
-                </button>
-              } @else {
-                <button
-                  type="button"
-                  class="btn-gp-primary"
-                  [disabled]="formValue.invalid"
-                  (click)="onSavePermis()">
-                  Guardar
-                </button>
-              }
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+                                           @if (permisObj.id) {
+                                             <button
+                                               type="button"
+                                               class="btn-gp-edit"
+                                               [disabled]="formValue.invalid"
+                                               (click)="onUpdatePermis()">
+                                               Actualitzar
+                                             </button>
+                                           } @else {
+                                             <button
+                                               type="button"
+                                               class="btn-gp-primary"
+                                               [disabled]="formValue.invalid"
+                                               (click)="onSavePermis()">
+                                               Guardar
+                                             </button>
+                                           }
+                                         </div>
+                                       </div>
+                                     </form>
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>

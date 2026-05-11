@@ -12,6 +12,8 @@ import { Auth } from '../../services/auth';
 })
 export class Login {
   loginForm: FormGroup;
+  errorMessage = '';
+  loading = false;
 
   constructor(private fb: FormBuilder, private auth: Auth, private router: Router) {
     this.loginForm = this.fb.group({
@@ -20,33 +22,52 @@ export class Login {
     });
   }
 
-  onSubmit() {
-    if (!this.loginForm.valid) {
+  onSubmit(): void {
+    this.errorMessage = '';
+
+    if (this.loginForm.invalid) {
+      this.errorMessage = 'Introdueix usuari i password.';
       return;
     }
 
-    const { usuari, password } = this.loginForm.value;
+    const usuari = String(this.loginForm.value.usuari ?? '').trim();
+    const password = String(this.loginForm.value.password ?? '').trim();
 
-    this.auth.login(usuari ?? '', password ?? '').subscribe(user => {
-      if (!user) {
-        console.log('Invalid credentials');
-        return;
-      }
+    if (!usuari || !password) {
+      this.errorMessage = 'Introdueix usuari i password.';
+      return;
+    }
 
-      console.log('Login successful:', user);
-      localStorage.setItem('user', JSON.stringify(user));
+    this.loading = true;
 
-      if (user.rol === 'admin') {
-        this.router.navigate(['/dashboard']);
-        return;
-      }
+    this.auth.login(usuari, password).subscribe({
+      next: (user) => {
+        this.loading = false;
 
-      if (user.rol === 'basic') {
-        this.router.navigate(['/permisos']);
-        return;
-      }
+        if (!user) {
+          this.errorMessage = 'Usuari o password incorrectes.';
+          return;
+        }
 
-      this.router.navigate(['/login']);
+        localStorage.setItem('user', JSON.stringify(user));
+
+        if (user.rol === 'admin') {
+          this.router.navigate(['/dashboard']);
+          return;
+        }
+
+        if (user.rol === 'basic') {
+          this.router.navigate(['/permisos']);
+          return;
+        }
+
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        this.loading = false;
+        console.error('Login error:', error);
+        this.errorMessage = 'No es pot connectar amb el servidor JSON.';
+      },
     });
   }
 }

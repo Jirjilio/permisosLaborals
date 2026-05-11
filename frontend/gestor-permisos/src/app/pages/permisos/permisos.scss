@@ -38,21 +38,36 @@ textarea.form-control:focus {
   overflow: hidden;
 }
 
-.table thead th {
+.permisos-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.permisos-table {
+  min-width: 1200px;
+}
+
+.permisos-table th,
+.permisos-table td {
   white-space: nowrap;
 }
 
-.table tbody td {
-  vertical-align: middle;
+.permisos-table td:nth-child(6) {
+  white-space: normal;
+  min-width: 260px;
+}
+
+.actions-cell {
+  min-width: 320px;
+}
+
+.actions-group {
+  flex-wrap: nowrap;
 }
 
 .badge {
   border-radius: 999px;
   padding: 4px 10px;
-}
-
-.d-flex.gap-1.flex-wrap {
-  min-width: 220px;
 }
 
 .alert {

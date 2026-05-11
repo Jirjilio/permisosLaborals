@@ -1,0 +1,11 @@
+<div class="notificaciones-container">
+  @for (notif of notificaciones; track notif.id) {
+    <div class="toast toast-{{ notif.tipo }}" (click)="remover(notif.id)">
+      <span class="toast-icon">{{ getIcon(notif.tipo) }}</span>
+      <span class="toast-mensaje">{{ notif.mensaje }}</span>
+      <button class="toast-close" type="button" (click)="$event.stopPropagation(); remover(notif.id)">
+        ×
+      </button>
+    </div>
+  }
+</div>

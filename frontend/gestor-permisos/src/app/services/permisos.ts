@@ -15,6 +15,10 @@ export class Permisos {
     return this.http.get<Permis[]>(this.apiUrl);
   }
 
+  getById(id: string): Observable<Permis> {
+    return this.http.get<Permis>(`${this.apiUrl}/${id}`);
+  }
+
   create(permis: Permis): Observable<Permis> {
     return this.http.post<Permis>(this.apiUrl, permis);
   }
