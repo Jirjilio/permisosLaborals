@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 import JsonWebToken from 'jsonwebtoken';
 
-export function generarToken(email) {
-    return JsonWebToken.sign({email},process.env.JWT_TOKEN_SECRET, {expiresIn: '1h'});
+export function generarToken(usuario) {
+    return JsonWebToken.sign({usuario},process.env.JWT_TOKEN_SECRET, {expiresIn: '1h'});
 }
 
 export function verificarToken(req, res, next) {

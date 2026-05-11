@@ -1,5 +1,5 @@
 import { generarToken } from '../helpers/autenticacion.js';
-import UsuarioModelo from '../models/users.js';
+import usuariosModelo from '../models/users.js';
 import bcrypt from 'bcrypt';
 
 class usuarioController {
@@ -11,20 +11,21 @@ class usuarioController {
         try {
             const { nombre, apellido1, apellido2, email, usuario, password } = req.body;
 
-            const usuarioExiste = await UsuarioModelo.getOne({ email });
+            const usuarioExiste = await usuariosModelo.getOne({ usuario });
             if (usuarioExiste) {
                 return res.status(400).json({ error: 'El usuario ya existe' });
             }
 
             const passEncriptada = await bcrypt.hash(password, 10);
 
-            const data = await UsuarioModelo.create({
+            const data = await usuariosModelo.create({
                 nombre,
                 apellido1,
                 apellido2,
                 email,
                 usuario,
-                password: passEncriptada
+                password: passEncriptada,
+                rol: 'user'
             });
             res.status(201).json(data)
         } catch (error) {
@@ -37,7 +38,7 @@ class usuarioController {
         const { usuario, password } = req.body;
         console.log("Body recibido:", req.body);
 
-        const usuarioExiste = await UsuarioModelo.getOne({ usuario });
+        const usuarioExiste = await usuariosModelo.getOne({ usuario });
         if (!usuarioExiste) {
             return res.status(400).json({ error: 'El usuario no existe' });
         }
@@ -51,11 +52,12 @@ class usuarioController {
         const token = generarToken(usuario);
         
         res.status(200).json({ message: 'Inicio de sesión exitoso' , token});
+        console.log("inicio de sesión exitoso");
     }
     //get id
     async profile(req, res){
         try {
-            const data = await UsuarioModelo.getOne({ usuario: req.usuarioConectado })
+            const data = await usuariosModelo.getOne({ usuario: req.usuarioConectado })
             res.status(201).json(data)
         } catch (error) {
             console.error("Error en el get one")
@@ -66,7 +68,7 @@ class usuarioController {
     async update(req, res){
         try {
             const { id } = req.params
-            const data = await UsuarioModelo.update(id, req.body)
+            const data = await usuariosModelo.update(id, req.body)
             res.status(200).json({data})
         } catch (error) {
             console.error("Error en el update")
@@ -77,7 +79,7 @@ class usuarioController {
     async delete(req, res){
         try {
             const { id } = req.params
-            const data = await UsuarioModelo.delete(id)
+            const data = await usuariosModelo.delete(id)
             res.status(206).json({data})
         } catch (error) {
             console.error("Error en el delete")
@@ -89,13 +91,13 @@ class usuarioController {
         try {
             const {id} = req.params;
 
-            const usuarioExiste = await UsuarioModelo.getOneByID( id );
+            const usuarioExiste = await usuariosModelo.getOne({ _id: id });
 
             if (!usuarioExiste) {
                 return res.status(400).json({ error: 'El usuario no existe' });
             }
 
-            const data = await UsuarioModelo.misPermisos(id);
+            const data = await usuariosModelo.misPermisos(id);
             res.status(200).json(data);
             
         } catch (error) {
