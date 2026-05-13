@@ -6,7 +6,7 @@ import { verificarToken } from '../helpers/autenticacion.js'
 
 route.post('/crearempleado', usuarioController.crearEmpleado)
 route.post('/login', usuarioController.login)
-route.get('/todosempleados', verificarToken, usuarioController.todosEmpleados)
+route.get('/todosusuarios', verificarToken, usuarioController.todosUsuarios)
 route.get('/:usuario', verificarToken, usuarioController.obtenerEmpleado)
 route.delete('/:usuario', verificarToken, usuarioController.deleteEmpleado)
 

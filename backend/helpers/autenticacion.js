@@ -16,8 +16,8 @@ export function verificarToken(req, res, next) {
     try {
         const dataToken = JsonWebToken.verify(token, process.env.JWT_TOKEN_SECRET);
         console.log("Token verificado:", token);
-        console.log(dataToken.email);
-        req.emailConectado = dataToken.email;
+        console.log(dataToken.usuario);
+        req.usuarioConectado = dataToken.usuario;
         next();
     } catch (error) {
         res.status(401).send({error: 'Token no válido'});    

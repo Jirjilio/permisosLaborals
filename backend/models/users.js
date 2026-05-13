@@ -29,10 +29,19 @@ class usuariosModelo{
 
     async getAll(){
         try {
-            return await usuarios.find();
+            return await usuarios.find().select('-password');
         } catch (error) {
             console.error("Error al obtener todos los usuarios:", error);
+            return [];
+        }
     }
+
+    async delete(usuario){
+        try {
+            return await usuarios.deleteOne({ usuario })
+        } catch (error) {
+            console.error("Error al eliminar el usuario:", error);
+        }
     }
 }
 export default new usuariosModelo

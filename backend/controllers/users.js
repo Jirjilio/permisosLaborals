@@ -52,14 +52,14 @@ class usuarioController {
 
         const token = generarToken(usuario);
         
-        res.status(200).json({  token,user: usuarioExiste.usuario ,rol: usuarioExiste.rol });
+        res.status(200).json({  token,user: usuarioExiste.usuario ,rol: usuarioExiste.rol, id: usuarioExiste._id });
         console.log("inicio de sesión exitoso");
     }
     //get id
     async obtenerEmpleado(req, res){
         try {
             const data = await usuariosModelo.getOne({ usuario: req.params.usuario })
-            res.status(201).json(data)
+            res.status(200).json(data)
         } catch (error) {
             console.error("Error en el get one")
             res.status(500).send({error})
@@ -88,7 +88,7 @@ class usuarioController {
         }
     }
 
-    async todosEmpleados(req, res){
+    async todosUsuarios(req, res){
         try {
             const data = await usuariosModelo.getAll()
             res.status(200).json({data})
