@@ -1,0 +1,180 @@
+<div class="page-header">
+  <div class="page-title">Detall del permís</div>
+  <div class="page-subtitle">Consulta tota la informació del permís seleccionat</div>
+</div>
+
+@if (loading) {
+  <div class="gp-card">
+    <div class="gp-card-body">
+      <div class="text-center">Carregant detall...</div>
+    </div>
+  </div>
+} @else if (errorMessage) {
+  <div class="gp-card">
+    <div class="gp-card-body">
+      <div class="alert alert-danger mb-0">{{ errorMessage }}</div>
+    </div>
+  </div>
+} @else if (permis) {
+  <div class="gp-card">
+    <div class="gp-card-header">
+      <div class="gp-card-title">
+        Permís #{{ permis.id }}
+      </div>
+
+      <div class="d-flex gap-2 flex-wrap">
+        <button type="button" class="btn-gp-secondary" (click)="goBack()">
+          Tornar
+        </button>
+
+        @if (!isEditing) {
+          <button type="button" class="btn-gp-edit" (click)="enableEdit()">
+            Editar
+          </button>
+        } @else {
+          <button type="button" class="btn-gp-secondary" (click)="cancelEdit()">
+            Cancel·lar
+          </button>
+          <button type="button" class="btn-gp-primary" (click)="saveChanges()">
+            Guardar
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="gp-card-body">
+      @if (!isEditing) {
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">Estat</div>
+            <div class="detail-value">
+              <span [class]="getStatusClass(permis.estat)">
+                {{ getStatusLabel(permis.estat) }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Data creació</div>
+            <div class="detail-value">{{ permis.dataCreacio | date:'dd/MM/yyyy HH:mm' }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Data inici</div>
+            <div class="detail-value">{{ permis.dataInici }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Data final</div>
+            <div class="detail-value">{{ permis.dataFinal }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Tipus</div>
+            <div class="detail-value">{{ permis.tipus }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Descripció</div>
+            <div class="detail-value">{{ permis.descripcio }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Empleat creador</div>
+            <div class="detail-value">{{ getEmpleatNom(permis.empleatCreadorId) }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Empleat tramitador</div>
+            <div class="detail-value">{{ getEmpleatNom(permis.empleatTramitadorId) }}</div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-label">Data tramitació</div>
+            <div class="detail-value">
+              {{ permis.dataTramitacio ? (permis.dataTramitacio | date:'dd/MM/yyyy HH:mm') : '—' }}
+            </div>
+          </div>
+        </div>
+      } @else {
+        <form #detailForm="ngForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="gp-label" for="dataInici">Data inici *</label>
+              <input
+                id="dataInici"
+                type="date"
+                class="gp-input"
+                [(ngModel)]="permis.dataInici"
+                name="dataInici"
+                required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="gp-label" for="dataFinal">Data final *</label>
+              <input
+                id="dataFinal"
+                type="date"
+                class="gp-input"
+                [(ngModel)]="permis.dataFinal"
+                name="dataFinal"
+                required>
+            </div>
+
+            <div class="col-12">
+              <label class="gp-label" for="tipus">Tipus *</label>
+              <select
+                id="tipus"
+                class="gp-select"
+                [(ngModel)]="permis.tipus"
+                name="tipus"
+                required>
+                @for (tipus of tipusOptions; track tipus) {
+                  <option [value]="tipus">{{ tipus }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="gp-label" for="descripcio">Descripció *</label>
+              <textarea
+                id="descripcio"
+                class="gp-input"
+                rows="4"
+                [(ngModel)]="permis.descripcio"
+                name="descripcio"
+                required></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="gp-label" for="estat">Estat</label>
+
+              @if (esAdmin) {
+                <select
+                  id="estat"
+                  class="gp-select"
+                  [(ngModel)]="permis.estat"
+                  name="estat">
+                  <option value="pendent">Pendent</option>
+                  <option value="aprovat">Aprovat</option>
+                  <option value="refusat">Refusat</option>
+                </select>
+              } @else {
+                <input
+                  id="estat"
+                  type="text"
+                  class="gp-input"
+                  [value]="getStatusLabel(permis.estat)"
+                  disabled>
+              }
+            </div>
+
+            <div class="col-12 detail-note">
+              La data de creació i els identificadors del creador no es modifiquen.
+            </div>
+          </div>
+        </form>
+      }
+    </div>
+  </div>
+}

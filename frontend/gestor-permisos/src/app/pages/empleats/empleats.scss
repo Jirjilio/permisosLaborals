@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.gp-table {
+  min-width: 1080px;
+}
+
+.table thead th {
+  white-space: nowrap;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.gp-actions {
+  white-space: nowrap;
+}
+
+.gp-actions .btn-gp-edit,
+.gp-actions .btn-gp-danger {
+  flex-shrink: 0;
+}
+
+img.rounded-circle {
+  border: 1px solid var(--border);
+}
+
+.form-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-control,
+.form-select {
+  background-color: var(--bg-secondary);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.alert {
+  border: 1px solid var(--border);
+}
