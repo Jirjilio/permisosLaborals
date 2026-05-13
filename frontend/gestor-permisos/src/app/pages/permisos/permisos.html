@@ -111,6 +111,10 @@
                                                  <td>{{ getEmpleatNom(item.empleatTramitadorId) }}</td>
                                                  <td class="actions-cell">
                                                    <div class="d-flex gap-1 flex-nowrap actions-group">
+                                                      <button type="button" class="btn-gp-secondary" (click)="openDetail(item)">
+                                                        Veure
+                                                      </button>
+
                                                      <button type="button" class="btn-gp-edit" (click)="onEdit(item)">
                                                        Editar
                                                      </button>
