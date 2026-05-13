@@ -47,11 +47,12 @@ export class Login {
         this.loading = false;
 
         if (!user) {
+          this.auth.clearSession();
           this.errorMessage = 'Usuari o password incorrectes.';
           return;
         }
 
-        localStorage.setItem('user', JSON.stringify(user));
+        this.auth.setSession(user);
 
         if (user.rol === 'admin') {
           this.router.navigate(['/dashboard']);

@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Auth, LoginEntry } from '../../services/auth';
 
-type UsuariSessio = {
-  id?: string;
-  nom?: string;
-  usuari?: string;
-  rol?: 'admin' | 'basic';
-};
+type UsuariSessio = LoginEntry;
 
 @Component({
   selector: 'app-navbar',
@@ -19,15 +15,14 @@ type UsuariSessio = {
 export class Navbar implements OnInit {
   user: UsuariSessio | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: Auth) {}
 
   ngOnInit(): void {
-    const raw = localStorage.getItem('user');
-    this.user = raw ? JSON.parse(raw) : null;
+    this.user = this.auth.getCurrentUser();
   }
 
   logout(): void {
-    localStorage.removeItem('user');
+    this.auth.clearSession();
     this.router.navigate(['/login']);
   }
 }

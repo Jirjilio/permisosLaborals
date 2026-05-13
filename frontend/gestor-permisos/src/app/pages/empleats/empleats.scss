@@ -5,6 +5,13 @@
 .table-responsive {
   border-radius: 12px;
   overflow: hidden;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.gp-table {
+  min-width: 1080px;
 }
 
 .table thead th {
@@ -13,6 +20,15 @@
 
 .table tbody td {
   vertical-align: middle;
+}
+
+.gp-actions {
+  white-space: nowrap;
+}
+
+.gp-actions .btn-gp-edit,
+.gp-actions .btn-gp-danger {
+  flex-shrink: 0;
 }
 
 img.rounded-circle {
