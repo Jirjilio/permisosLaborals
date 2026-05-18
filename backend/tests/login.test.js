@@ -27,6 +27,16 @@ describe('API Login', () => {
       console.log("Usuario de prueba creado:", user)
     }
   })
+  afterAll(async () => {
+    // Eliminar usuario de prueba si existe
+    const existingUser = await usuariosModelo.getOne({ usuario: testUserData.usuario })
+    if (existingUser) {
+      const user= await usuariosModelo.delete({
+        usuario: testUserData.usuario
+      })
+      console.log("Usuario de prueba eliminado:", user)
+    }
+  })
 
   it('should login successfully with valid credentials', async () => {
     // Paso 1: enviar petición de login
