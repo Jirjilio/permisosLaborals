@@ -29,3 +29,4 @@ process.on('SIGINT', async () => {
     await dbClient.desconectarBD()
     process.exit(0);
 })
+
