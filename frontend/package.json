@@ -1,0 +1,11 @@
+{
+  "name": "permisos-frontend-tools",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix gestor-permisos start",
+    "dev": "npm --prefix gestor-permisos start",
+    "mock": "npm --prefix gestor-permisos run mock",
+    "build": "npm --prefix gestor-permisos run build"
+  }
+}
+

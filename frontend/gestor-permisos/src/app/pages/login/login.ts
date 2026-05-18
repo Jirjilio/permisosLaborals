@@ -54,12 +54,14 @@ export class Login {
 
         this.auth.setSession(user);
 
-        if (user.rol === 'admin') {
+        const rol = String(user.rol ?? '').toLowerCase();
+
+        if (rol === 'admin') {
           this.router.navigate(['/dashboard']);
           return;
         }
 
-        if (user.rol === 'basic') {
+        if (rol === 'basic' || rol === 'user') {
           this.router.navigate(['/permisos']);
           return;
         }

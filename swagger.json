@@ -10,11 +10,47 @@
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Escriu: Bearer <token>"
+    }
+  },
   "paths": {
     "/permisos/": {
       "post": {
-        "description": "",
+        "description": "Crea un nou permís",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": ["empleado", "fechaInicio", "fechaFinal", "tipo", "descripcion"],
+              "properties": {
+                "empleado": { "example": "ID-123" },
+                "creacion": { "example": "2026-05-18T14:00:00.000Z" },
+                "fechaInicio": { "example": "2026-05-20T00:00:00.000Z" },
+                "fechaFinal": { "example": "2026-05-22T00:00:00.000Z" },
+                "tipo": { "example": "malaltia" },
+                "descripcion": { "example": "Baixa mèdica" },
+                "estado": { "example": "pendiente" },
+                "adminGestor": { "example": "admin@test.com" },
+                "fechaTramitado": { "example": "2026-05-18T14:00:00.000Z" }
+              }
+            }
+          }
+        ],
         "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
           "default": {
             "description": ""
           }
@@ -79,9 +115,9 @@
         }
       }
     },
-    "/permisos/{permisoId}/comprar": {
+    "/permisos/{permisoId}/solicitar": {
       "post": {
-        "description": "",
+        "description": "Sol·licita un permís existent",
         "parameters": [
           {
             "name": "permisoId",
@@ -168,7 +204,12 @@
     },
     "/usuarios/profile": {
       "get": {
-        "description": "",
+        "description": "Retorna el perfil de l'usuari autenticat",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
           "201": {
             "description": "Created"

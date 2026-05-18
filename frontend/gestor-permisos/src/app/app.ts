@@ -1,5 +1,5 @@
 import { Component, DestroyRef, OnInit, signal, inject } from '@angular/core';
-import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { NotificacionesComponent } from './components/notificaciones/notificaciones';
 import { CommonModule } from '@angular/common';
@@ -22,23 +22,34 @@ export class App implements OnInit {
   constructor(private router: Router, private auth: Auth) {}
 
   ngOnInit(): void {
-    this.updateNavbarVisibility(this.router.url);
+    this.updateNavbarVisibility();
 
     this.router.events
       .pipe(
         filter((event): event is NavigationEnd => event instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((event) => {
-        this.updateNavbarVisibility(event.urlAfterRedirects);
-      });
+      .subscribe(() => this.updateNavbarVisibility());
 
     this.auth.user$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.updateNavbarVisibility(this.router.url));
+      .subscribe(() => this.updateNavbarVisibility());
   }
 
-  private updateNavbarVisibility(url: string): void {
-    this.showNavbar = this.auth.isAuthenticated() && !url.includes('/login');
+  private updateNavbarVisibility(): void {
+    const route = this.getDeepestRoute(this.router.routerState.snapshot.root);
+    const routeWantsNavbar = route?.data?.['showNavbar'] !== false;
+
+    this.showNavbar = this.auth.isAuthenticated() && routeWantsNavbar;
+  }
+
+  private getDeepestRoute(route: ActivatedRouteSnapshot): ActivatedRouteSnapshot {
+    let current = route;
+
+    while (current.firstChild) {
+      current = current.firstChild;
+    }
+
+    return current;
   }
 }

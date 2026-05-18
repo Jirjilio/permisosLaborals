@@ -3,32 +3,48 @@
 }
 
 .table-responsive {
+  display: block;
   border-radius: 12px;
-  overflow: hidden;
-  max-height: 600px;
   overflow-y: auto;
   overflow-x: auto;
+  max-height: 600px;
+  scrollbar-gutter: stable both-edges;
 }
 
 .gp-table {
-  min-width: 1080px;
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-.table thead th {
+.gp-table thead th {
   white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
-.table tbody td {
+.gp-table tbody td {
   vertical-align: middle;
 }
 
 .gp-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 180px;
   white-space: nowrap;
 }
 
 .gp-actions .btn-gp-edit,
 .gp-actions .btn-gp-danger {
   flex-shrink: 0;
+}
+
+.gp-actions .btn-gp-edit,
+.gp-actions .btn-gp-danger {
+  min-width: 82px;
 }
 
 img.rounded-circle {
