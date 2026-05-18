@@ -28,6 +28,7 @@ class usuarioController {
                 password: passEncriptada,
                 rol: 'user'
             });
+            console.log("Usuario creado:", data);
             res.status(201).json(data)
         } catch (error) {
             console.error("Error en el Register:", error)
@@ -58,11 +59,17 @@ class usuarioController {
     //get id
     async obtenerEmpleado(req, res){
         try {
-            const data = await usuariosModelo.getOne({ usuario: req.params.usuario })
-            res.status(200).json(data)
+            const usuarioBuscado = req.params.usuario
+            const data = await usuariosModelo.getOne({ usuario: usuarioBuscado })
+            if (!data) {
+                return res.status(404).json({ error: 'Usuario no encontrado' })
+            }
+            const usuarioSeguro = data.toObject()
+            delete usuarioSeguro.password
+            res.status(200).json(usuarioSeguro)
         } catch (error) {
-            console.error("Error en el get one")
-            res.status(500).send({error})
+            console.error("Error en el get one", error)
+            res.status(500).send({ error: 'Error interno al obtener el usuario' })
         }
     }
     //update

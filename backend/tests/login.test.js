@@ -20,14 +20,18 @@ describe('API Login', () => {
     const existingUser = await usuariosModelo.getOne({ usuario: testUserData.usuario })
     if (!existingUser) {
       const hashedPassword = await bcrypt.hash(testUserData.password, 10)
-      await usuariosModelo.create({
+      const user= await usuariosModelo.create({
         ...testUserData,
         password: hashedPassword
       })
+      console.log("Usuario de prueba creado:", user)
     }
   })
 
   it('should login successfully with valid credentials', async () => {
+    // Paso 1: enviar petición de login
+    // Comentario: este console.log ayuda a comprobar que se envía correctamente
+    console.log('[login test] Enviando petición de login para usuario:', testUserData.usuario)
     const response = await request(app)
       .post('/usuarios/login')
       .send({
@@ -35,10 +39,24 @@ describe('API Login', () => {
         password: testUserData.password
       })
 
+    // Paso 2: mostrar respuesta recibida
+    console.log('[login test] Status recibido:', response.status)
+    console.log('[login test] Body recibido:', response.body)
+
+    // Paso 3: aserciones (cada una precedida de un log para ver cuál falla)
+    console.log('[login test] Aserción: status === 200')
     expect(response.status).toBe(200)
+
+    console.log('[login test] Aserción: existe token')
     expect(response.body).toHaveProperty('token')
+
+    console.log('[login test] Aserción: existe user')
     expect(response.body).toHaveProperty('user')
+
+    console.log('[login test] Aserción: existe rol')
     expect(response.body).toHaveProperty('rol')
+
+    console.log('[login test] Aserción: existe id')
     expect(response.body).toHaveProperty('id')
   })
 
