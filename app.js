@@ -26,6 +26,6 @@ try {
 }
 
 process.on('SIGINT', async () => {
-    dbClient.cerrarConexion()
+    await dbClient.desconectarBD()
     process.exit(0);
 })

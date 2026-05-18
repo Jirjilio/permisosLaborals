@@ -7,13 +7,13 @@
 
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
-              <label class="gp-label" for="usuari">Usuari</label>
+              <label class="gp-label" for="usuari">Usuari o email</label>
               <input
                 id="usuari"
                 type="text"
                 class="gp-input"
                 formControlName="usuari"
-                placeholder="Introdueix l'usuari">
+                placeholder="Introdueix l'usuari o el correu">
             </div>
 
             <div class="mb-4">

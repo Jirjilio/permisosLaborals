@@ -65,6 +65,7 @@
     {
       "id": "1",
       "usuari": "admin",
+      "email": "admin@test.com",
       "rol": "admin",
       "password": "1234",
       "token": "12345"

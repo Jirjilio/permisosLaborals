@@ -6,8 +6,17 @@ class permisoController {
     }
     //Create
     async create(req, res){
-        const {empleado, creacion, fechaInicio, fechaFinal, tipo, descripcion, estado, adminGestor, fechaTramitado} = req.body;
         try {
+            const body = req.body ?? {};
+            const {empleado, creacion, fechaInicio, fechaFinal, tipo, descripcion, estado, adminGestor, fechaTramitado} = body;
+
+            if (!empleado || !fechaInicio || !fechaFinal || !tipo || !descripcion) {
+                return res.status(400).json({
+                    error: 'Falten camps obligatoris',
+                    required: ['empleado', 'fechaInicio', 'fechaFinal', 'tipo', 'descripcion']
+                });
+            }
+
             const data = await permisosModelo.create({empleado, creacion, fechaInicio, fechaFinal, tipo, descripcion, estado, adminGestor, fechaTramitado})
             res.status(201).json(data)
         } catch (error) {

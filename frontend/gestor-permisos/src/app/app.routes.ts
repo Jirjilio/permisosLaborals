@@ -7,10 +7,10 @@ import { PermisDetall } from './pages/permis-detall/permis-detall';
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-  { path: 'login', component: Login },
-  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
-  { path: 'permisos', component: Permisos, canActivate: [authGuard] },
-  { path: 'permisos/:id', component: PermisDetall, canActivate: [authGuard] },
-  { path: 'empleats', component: Empleats, canActivate: [authGuard] },
+  { path: 'login', component: Login, data: { showNavbar: false } },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard], data: { showNavbar: true } },
+  { path: 'permisos', component: Permisos, canActivate: [authGuard], data: { showNavbar: true } },
+  { path: 'permisos/:id', component: PermisDetall, canActivate: [authGuard], data: { showNavbar: true } },
+  { path: 'empleats', component: Empleats, canActivate: [authGuard], data: { showNavbar: true } },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
