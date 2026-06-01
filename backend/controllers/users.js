@@ -157,18 +157,29 @@ class usuarioController {
             return res.status(400).json({ error: 'Contraseña incorrecta' });
         }
 
-        const token = generarToken(usuarioExiste.email);
+        const token = generarToken({
+            email: usuarioExiste.email,
+            id: usuarioExiste._id?.toString(),
+            rol: usuarioExiste.rol,
+        });
         
         res.status(200).json({ message: 'Inicio de sesión exitoso' , token});
     }
     //get id
     async profile(req, res){
         try {
-            const data = await UsuarioModelo.getOne({ email: req.emailConectado })
+            const data = req.usuarioConectadoId
+                ? await UsuarioModelo.getOneByID(req.usuarioConectadoId)
+                : await UsuarioModelo.getOne({ email: req.emailConectado });
+
+            if (!data) {
+                return res.status(404).json({ error: 'El usuario no existe' });
+            }
+
             res.status(200).json(this.sanitizarUsuario(data))
         } catch (error) {
-            console.error("Error en el get one")
-            res.status(500).send({error})
+            console.error("Error en el profile:", error)
+            res.status(500).send({ error: error.message || String(error) })
         }
     }
     //update
