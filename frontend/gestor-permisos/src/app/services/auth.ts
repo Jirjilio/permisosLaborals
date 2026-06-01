@@ -33,18 +33,10 @@ export class Auth {
       return of(undefined);
     }
 
-    const useBackendFirst = value.includes('@');
-    const primaryLogin$ = useBackendFirst
-      ? this.loginAgainstBackend(value, password)
-      : this.loginAgainstMock(value, password);
-    const fallbackLogin$ = useBackendFirst
-      ? this.loginAgainstMock(value, password)
-      : this.loginAgainstBackend(value, password);
-
-    return primaryLogin$.pipe(
+    return this.loginAgainstBackend(value, password).pipe(
       catchError((error) => {
         console.warn('Auth.login: falló el login principal, probando alternativa', error);
-        return fallbackLogin$;
+        return this.loginAgainstMock(value, password);
       })
     );
   }
@@ -110,10 +102,13 @@ export class Auth {
   }
 
   private normalizeMockUser(user: LoginEntry): LoginEntry {
+    const rol = user.rol === 'user' ? 'basic' : user.rol;
+
     return {
       ...user,
       nom: user.nom || user.usuari,
       usuari: user.usuari,
+      rol,
     };
   }
 
@@ -121,13 +116,14 @@ export class Auth {
     const email = String(profile['email'] ?? '');
     const usuari = String(profile['usuario'] ?? profile['usuari'] ?? email);
     const nom = String(profile['nombre'] ?? profile['nom'] ?? usuari);
+    const rol = String(profile['rol'] ?? '') === 'user' ? 'basic' : String(profile['rol'] ?? '');
 
     return {
       id: String(profile['_id'] ?? profile['id'] ?? ''),
       nom,
       usuari,
       email,
-      rol: String(profile['rol'] ?? ''),
+      rol,
       token,
     };
   }

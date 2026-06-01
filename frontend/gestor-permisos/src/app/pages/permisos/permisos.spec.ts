@@ -1,23 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { of } from 'rxjs';
 import { Permisos } from './permisos';
 
 describe('Permisos', () => {
-  let component: Permisos;
-  let fixture: ComponentFixture<Permisos>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Permisos]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(Permisos);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
   it('should create', () => {
+    const component = new Permisos(
+      {
+        getAll: () => of([]),
+        create: () => of({}),
+        update: () => of({}),
+        delete: () => of(undefined),
+      } as never,
+      {
+        getAll: () => of([]),
+      } as never,
+      { navigate: () => Promise.resolve(true) } as never,
+      {
+        success: () => undefined,
+        error: () => undefined,
+        warning: () => undefined,
+        info: () => undefined,
+      } as never
+    );
+
     expect(component).toBeTruthy();
   });
 });

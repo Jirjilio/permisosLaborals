@@ -14,6 +14,7 @@ type UsuariSessio = {
         id?: string;
         _id?: string;
         rol?: 'admin' | 'basic';
+        nom?: string;
         usuari?: string;
       };
 
@@ -67,6 +68,11 @@ type UsuariSessio = {
         }
 
         loadEmpleats(): void {
+          if (!this.esAdmin) {
+            this.empleats = [];
+            return;
+          }
+
           this.empleatsService.getAll().subscribe({
             next: (data) => {
               this.empleats = data;
@@ -125,6 +131,11 @@ type UsuariSessio = {
             return '—';
           }
 
+          const userId = this.getUserId();
+          if (id === userId) {
+            return this.user?.nom || this.user?.usuari || id;
+          }
+
           const empleat = this.empleats.find((e) => e.id === id);
           if (!empleat) {
             return id;
@@ -179,6 +190,11 @@ type UsuariSessio = {
         }
 
         onUpdatePermis(): void {
+          if (!this.esAdmin) {
+            this.notificaciones.warning('Només un admin pot actualitzar permisos');
+            return;
+          }
+
           if (!this.permisObj.id) {
             this.notificaciones.warning('ID de permiso no encontrado');
             return;
@@ -205,6 +221,11 @@ type UsuariSessio = {
         }
 
         onDeletePermis(id?: string): void {
+          if (!this.esAdmin) {
+            this.notificaciones.warning('Només un admin pot eliminar permisos');
+            return;
+          }
+
           if (!id) {
             this.notificaciones.warning('ID de permiso no encontrado');
             return;
@@ -276,7 +297,7 @@ type UsuariSessio = {
           return this.user?.id ?? this.user?._id ?? '';
         }
 
-        private isFormValid(): boolean {
+        isFormValid(): boolean {
           return !!(
             this.permisObj.dataInici &&
             this.permisObj.dataFinal &&

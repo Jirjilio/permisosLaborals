@@ -10,6 +10,7 @@
   <nav class="sidebar-nav">
     <div class="sidebar-section-label">Menú</div>
 
+    @if (user?.rol === 'admin') {
     <a class="sidebar-link" routerLink="/dashboard" routerLinkActive="active">
       <span class="icon">📊</span>
       <span>Dashboard</span>
@@ -19,6 +20,7 @@
       <span class="icon">👥</span>
       <span>Empleats</span>
     </a>
+    }
 
     <a class="sidebar-link" routerLink="/permisos" routerLinkActive="active">
       <span class="icon">📝</span>

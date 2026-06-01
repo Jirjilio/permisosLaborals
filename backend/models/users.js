@@ -12,6 +12,15 @@ class usuariosModelo {
         }
     }
 
+    async getAll() {
+        try {
+            return await usuarios.find();
+        } catch (error) {
+            console.error('Error al obtener los usuarios:', error);
+            throw error;
+        }
+    }
+
     async getOne(query) {
         try {
             return await usuarios.findOne(query);

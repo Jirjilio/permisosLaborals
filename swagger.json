@@ -5,7 +5,7 @@
     "description": "API para gestionar permisos y usuarios con autenticación JWT",
     "version": "1.0.0"
   },
-  "host": "localhost:5100",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -22,6 +22,11 @@
     "/permisos/": {
       "post": {
         "description": "Crea un nou permís",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "body",
@@ -29,17 +34,17 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["empleado", "fechaInicio", "fechaFinal", "tipo", "descripcion"],
+               "required": ["empleatCreadorId", "dataInici", "dataFinal", "tipus", "descripcio"],
               "properties": {
-                "empleado": { "example": "ID-123" },
-                "creacion": { "example": "2026-05-18T14:00:00.000Z" },
-                "fechaInicio": { "example": "2026-05-20T00:00:00.000Z" },
-                "fechaFinal": { "example": "2026-05-22T00:00:00.000Z" },
-                "tipo": { "example": "malaltia" },
-                "descripcion": { "example": "Baixa mèdica" },
-                "estado": { "example": "pendiente" },
-                "adminGestor": { "example": "admin@test.com" },
-                "fechaTramitado": { "example": "2026-05-18T14:00:00.000Z" }
+                "empleatCreadorId": { "example": "ID-123" },
+                "dataCreacio": { "example": "2026-05-18T14:00:00.000Z" },
+                "dataInici": { "example": "2026-05-20T00:00:00.000Z" },
+                "dataFinal": { "example": "2026-05-22T00:00:00.000Z" },
+                "tipus": { "example": "malaltia" },
+                "descripcio": { "example": "Baixa mèdica" },
+                "estat": { "example": "pendent" },
+                "empleatTramitadorId": { "example": "admin-id" },
+                "dataTramitacio": { "example": "2026-05-18T14:00:00.000Z" }
               }
             }
           }
@@ -57,17 +62,30 @@
         }
       },
       "get": {
-        "description": "",
+        "description": "Llista els permisos accessibles per l'usuari autenticat",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
     "/permisos/{id}": {
       "get": {
-        "description": "",
+        "description": "Retorna un permís per id",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -77,13 +95,27 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Actualitza un permís (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -93,13 +125,27 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Elimina un permís (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -109,8 +155,17 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -149,9 +204,12 @@
                 "nombre": {
                   "example": "any"
                 },
+                  "apellido1": { "example": "any" },
                 "telefono": {
                   "example": "any"
                 },
+                  "imagen": { "example": "any" },
+                  "rol": { "example": "basic" },
                 "password": {
                   "example": "any"
                 }
@@ -160,8 +218,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request"
@@ -211,8 +269,11 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -220,9 +281,111 @@
         }
       }
     },
+    "/usuarios/": {
+      "get": {
+        "description": "Llista tots els usuaris (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        }
+      },
+      "post": {
+        "description": "Crea un usuari (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "description": "Obté un usuari per id (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "put": {
+        "description": "Actualitza un usuari (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      },
+      "delete": {
+        "description": "Elimina un usuari (admin)",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        }
+      }
+    },
     "/usuarios/{id}/mispermisos": {
       "get": {
-        "description": "",
+        "description": "Retorna els permisos creats per un usuari",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -234,6 +397,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "400": {
             "description": "Bad Request"
