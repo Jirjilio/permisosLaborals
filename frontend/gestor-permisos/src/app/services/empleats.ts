@@ -1,89 +1,56 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Empleat } from '../models/empleat';
 
-type BackendUser = {
-  _id?: string;
-  id?: string;
-  nombre?: string;
-  apellido1?: string;
-  apellido2?: string;
-  email?: string;
-  usuario?: string;
-  password?: string;
-  imagen?: string;
-  rol?: 'admin' | 'basic' | 'user';
-};
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class Empleats {
   private apiUrl = 'http://localhost:3000/usuarios';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getAll(): Observable<Empleat[]> {
-    return this.http.get<BackendUser[]>(this.apiUrl, { headers: this.authHeaders() }).pipe(
-      map((items) => items.map((item) => this.toEmpleat(item)))
-    );
+    return this.http
+      .get<any[]>(this.apiUrl)
+      .pipe(map((data) => data.map((item) => this.normalize(item))));
+  }
+
+  getById(id: string): Observable<Empleat> {
+    return this.http
+      .get<any>(`${this.apiUrl}/${id}`)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   create(empleat: Empleat): Observable<Empleat> {
-    return this.http.post<BackendUser>(this.apiUrl, this.toBackendPayload(empleat), { headers: this.authHeaders() }).pipe(
-      map((item) => this.toEmpleat(item))
-    );
+    return this.http
+      .post<any>(this.apiUrl, empleat)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   update(id: string, empleat: Empleat): Observable<Empleat> {
-    return this.http.put<BackendUser>(`${this.apiUrl}/${id}`, this.toBackendPayload(empleat), { headers: this.authHeaders() }).pipe(
-      map((item) => this.toEmpleat(item))
-    );
+    return this.http
+      .put<any>(`${this.apiUrl}/${id}`, empleat)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.authHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  private authHeaders(): HttpHeaders {
-    const raw = localStorage.getItem('user');
-    if (!raw) {
-      return new HttpHeaders();
-    }
-
-    try {
-      const user = JSON.parse(raw) as { token?: string };
-      return user.token ? new HttpHeaders({ Authorization: `Bearer ${user.token}` }) : new HttpHeaders();
-    } catch {
-      return new HttpHeaders();
-    }
-  }
-
-  private toEmpleat(item: BackendUser): Empleat {
+  private normalize(item: any): Empleat {
+    const usuari = item.usuari ?? item.usuario ?? '';
     return {
-      id: item._id || item.id,
-      nom: item.nombre || '',
-      primerCognom: item.apellido1 || '',
-      segonCognom: item.apellido2 || '',
-      email: item.email || '',
-      usuari: item.usuario || '',
-      password: item.password || '',
-      imatge: item.imagen || '',
-      rol: item.rol === 'admin' ? 'admin' : 'basic',
-    };
-  }
-
-  private toBackendPayload(empleat: Empleat): BackendUser {
-    return {
-      nombre: empleat.nom,
-      apellido1: empleat.primerCognom,
-      apellido2: empleat.segonCognom,
-      email: empleat.email,
-      usuario: empleat.usuari,
-      password: empleat.password,
-      imagen: empleat.imatge,
-      rol: empleat.rol,
+      ...item,
+      id: item.id ?? item._id,
+      nom: item.nom ?? item.nombre ?? usuari,
+      primerCognom: item.primerCognom ?? item.apellido ?? item.apellidos ?? usuari,
+      segonCognom: item.segonCognom ?? item.segundoApellido ?? '',
+      email: item.email ?? '',
+      usuari,
+      rol: item.rol ?? 'basic',
+      imatge: item.imatge ?? item.imagen ?? '',
     };
   }
 }

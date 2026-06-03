@@ -1,47 +1,44 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Permis } from '../models/permis';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class Permisos {
   private apiUrl = 'http://localhost:3000/permisos';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Permis[]> {
-    return this.http.get<Permis[]>(this.apiUrl, { headers: this.authHeaders() });
+    return this.http
+      .get<any[]>(this.apiUrl)
+      .pipe(map((data) => data.map((item) => this.normalize(item))));
   }
 
   getById(id: string): Observable<Permis> {
-    return this.http.get<Permis>(`${this.apiUrl}/${id}`, { headers: this.authHeaders() });
+    return this.http
+      .get<any>(`${this.apiUrl}/${id}`)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   create(permis: Permis): Observable<Permis> {
-    return this.http.post<Permis>(this.apiUrl, permis, { headers: this.authHeaders() });
+    return this.http
+      .post<any>(this.apiUrl, permis)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   update(id: string, permis: Permis): Observable<Permis> {
-    return this.http.put<Permis>(`${this.apiUrl}/${id}`, permis, { headers: this.authHeaders() });
+    return this.http
+      .put<any>(`${this.apiUrl}/${id}`, permis)
+      .pipe(map((item) => this.normalize(item)));
   }
 
   delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`, { headers: this.authHeaders() });
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  private authHeaders(): HttpHeaders {
-    const raw = localStorage.getItem('user');
-    if (!raw) {
-      return new HttpHeaders();
-    }
-
-    try {
-      const user = JSON.parse(raw) as { token?: string };
-      return user.token ? new HttpHeaders({ Authorization: `Bearer ${user.token}` }) : new HttpHeaders();
-    } catch {
-      return new HttpHeaders();
-    }
+  private normalize(item: any): Permis {
+    return { ...item, id: item.id ?? item._id };
   }
 }
