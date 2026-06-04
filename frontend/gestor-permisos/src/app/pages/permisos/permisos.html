@@ -109,30 +109,32 @@
                                                  </td>
                                                  <td>{{ getEmpleatNom(item.empleatCreadorId) }}</td>
                                                  <td>{{ getEmpleatNom(item.empleatTramitadorId) }}</td>
-                                                 <td class="actions-cell">
-                                                   <div class="d-flex gap-1 flex-nowrap actions-group">
-                                                      <button type="button" class="btn-gp-secondary" (click)="openDetail(item)">
-                                                        Veure
-                                                      </button>
-
-                                                     <button type="button" class="btn-gp-edit" (click)="onEdit(item)">
-                                                       Editar
-                                                     </button>
-
-                                                     <button type="button" class="btn-gp-danger" (click)="onDeletePermis(item.id)">
-                                                       Eliminar
-                                                     </button>
-
-                                                     @if (esAdmin && item.estat === 'pendent') {
-                                                       <button type="button" class="btn-gp-approve" (click)="onTramitar(item, 'aprovat')">
-                                                         Aprovar
+                                                  <td class="actions-cell">
+                                                    <div class="d-flex gap-1 flex-nowrap actions-group">
+                                                       <button type="button" class="btn-gp-secondary" (click)="openDetail(item)">
+                                                         Veure
                                                        </button>
-                                                       <button type="button" class="btn-gp-reject" (click)="onTramitar(item, 'refusat')">
-                                                         Refusar
-                                                       </button>
-                                                     }
-                                                   </div>
-                                                 </td>
+
+                                                      @if (esAdmin) {
+                                                        <button type="button" class="btn-gp-edit" (click)="onEdit(item)">
+                                                          Editar
+                                                        </button>
+
+                                                        <button type="button" class="btn-gp-danger" (click)="onDeletePermis(item.id)">
+                                                          Eliminar
+                                                        </button>
+
+                                                        @if (item.estat === 'pendent') {
+                                                          <button type="button" class="btn-gp-approve" (click)="onTramitar(item, 'aprovat')">
+                                                            Aprovar
+                                                          </button>
+                                                          <button type="button" class="btn-gp-reject" (click)="onTramitar(item, 'refusat')">
+                                                            Refusar
+                                                          </button>
+                                                        }
+                                                      }
+                                                    </div>
+                                                  </td>
                                                </tr>
                                              }
                                            </tbody>
@@ -159,7 +161,7 @@
                                    </div>
 
                                    <div class="gp-card-body">
-                                     <form #formValue="ngForm">
+                                      <form>
                                        <div class="row g-3">
                                          <div class="col-md-6">
                                            <label for="dataInici" class="gp-label">Data inici *</label>
@@ -237,11 +239,11 @@
                                              Netejar
                                            </button>
 
-                                           @if (permisObj.id) {
+                                            @if (esAdmin && permisObj.id) {
                                              <button
                                                type="button"
                                                class="btn-gp-edit"
-                                               [disabled]="formValue.invalid"
+                                                [disabled]="!isFormValid()"
                                                (click)="onUpdatePermis()">
                                                Actualitzar
                                              </button>
@@ -249,7 +251,7 @@
                                              <button
                                                type="button"
                                                class="btn-gp-primary"
-                                               [disabled]="formValue.invalid"
+                                                [disabled]="!isFormValid()"
                                                (click)="onSavePermis()">
                                                Guardar
                                              </button>

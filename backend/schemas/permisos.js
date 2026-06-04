@@ -2,44 +2,43 @@ import mongoose from "mongoose";
 
 const permisoSchema = new mongoose.Schema(
     {
-        empleado: {
+        empleatCreadorId: {
             type: String,
             required: true
         },
-        creacion: {
+        dataCreacio: {
             type: Date,
             required: true,
             default: Date.now
         },
-        fechaInicio: {
+        dataInici: {
             type: Date,
             required: true,
         },
-        fechaFinal: {
+        dataFinal: {
             type: Date,
             required: true,
         },
-        tipo: {
+        tipus: {
             type: String,
             required: true,
             enum: ['hospitalitzacio', 'matrimoni', 'trasllat', 'malaltia', 'naixement', 'altres']
-            //en futuro quitar enum y dejarlo en tabla propia.
         },
-        descripcion: {
+        descripcio: {
             type: String,
             required: true
         },
-        estado: {
+        estat: {
             type: String,
             required: true,
-            enum: ['pendiente', 'aprobado', 'rechazado'],
-            default: 'pendiente',
+            enum: ['pendent', 'aprovat', 'refusat'],
+            default: 'pendent',
         },
-        adminGestor: {
+        empleatTramitadorId: {
             type: String,
             required: false
         },
-        fechaTramitado: {
+        dataTramitacio: {
             type: Date,
             required: false
         }

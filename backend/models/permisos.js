@@ -2,7 +2,6 @@
 //import dbClient from "../config/dbClient.js";
 import mongoose from "mongoose";
 import Permiso from "../schemas/permisos.js";
-import usuarios from "../schemas/users.js";
 
 class permisosModelo {
 
@@ -14,9 +13,23 @@ class permisosModelo {
         }
     }
 
-    async getAll(){
+    async getAll(filtros = {}){
         try {
-            return await Permiso.find();
+            const query = {};
+
+            if (filtros.estat) {
+                query.estat = filtros.estat;
+            }
+
+            if (filtros.empleatCreadorId) {
+                query.empleatCreadorId = filtros.empleatCreadorId;
+            }
+
+            if (filtros.empleatTramitadorId) {
+                query.empleatTramitadorId = filtros.empleatTramitadorId;
+            }
+
+            return await Permiso.find(query);
         } catch (error) {
             console.error("Error al obtener todos los permisos:", error);
         }

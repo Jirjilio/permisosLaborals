@@ -569,3 +569,13 @@ textarea.gp-input { resize: vertical; min-height: 90px; }
   color: var(--accent);
   font-weight: 600;
 }
+.gp-table td { padding: 10px 12px; font-size: 13px; }
+.gp-table th { padding: 10px 12px; }
+.gp-card-body.p-0 { padding: 0 !important; }
+.gp-table td, .gp-table th {
+  white-space: nowrap;
+}
+.gp-table td:last-child {
+  white-space: nowrap;
+  width: 1%;
+}
