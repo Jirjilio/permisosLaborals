@@ -39,6 +39,13 @@ export class Permisos {
   }
 
   private normalize(item: any): Permis {
-    return { ...item, id: item.id ?? item._id };
+    return {
+      ...item,
+      id: item.id ?? item._id,
+      dataInici: item.dataInici ? item.dataInici.substring(0, 10) : '',
+      dataFinal: item.dataFinal ? item.dataFinal.substring(0, 10) : '',
+      dataCreacio: item.dataCreacio ?? '',
+      dataTramitacio: item.dataTramitacio ?? '',
+    };
   }
 }
