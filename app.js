@@ -41,6 +41,8 @@ app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation))
 app.use('/permisos', routesPermisos)
 app.use('/usuarios', routesUsuarios)
 
+export default app;
+
 try {
     const PORT = process.env.PORT || 3000
     app.listen(PORT, () => console.log('Servidor activo en el puerto '+ PORT))
@@ -52,4 +54,3 @@ process.on('SIGINT', async () => {
     await dbClient.desconectarBD()
     process.exit(0);
 })
-
